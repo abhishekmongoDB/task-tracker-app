@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-let app = App(id: "tswriting-1907-ocpil")
+let app = App(id: "")
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
