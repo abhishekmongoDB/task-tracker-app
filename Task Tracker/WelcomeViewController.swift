@@ -68,11 +68,13 @@ class WelcomeViewController: UIViewController {
         // Configure the email and password text input fields.
         emailField.placeholder = "Username"
         emailField.borderStyle = .roundedRect
+        emailField.text = "abhishek"
         emailField.autocapitalizationType = .none
         emailField.autocorrectionType = .no
         container.addArrangedSubview(emailField)
 
         passwordField.placeholder = "Password"
+        passwordField.text = "abhishek"
 
         passwordField.isSecureTextEntry = true
         passwordField.borderStyle = .roundedRect
