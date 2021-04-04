@@ -51,6 +51,12 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
         // On the top left is a log out button.
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonDidClick))
+        
+        
+        toolbarItems = [
+            UIBarButtonItem(title: "Local Realm ", style: .plain, target: self, action: #selector(manageLocalTaskButtonDidClick))
+        ]
+        navigationController?.isToolbarHidden = false
     }
 
     @objc func logOutButtonDidClick() {
@@ -71,7 +77,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // You always have at least one project (your own)
-        return userData?.memberOf.count ?? 1
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -79,7 +85,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.selectionStyle = .none
 
         // User data may not have loaded yet. You always have your own project.
-        let projectName = userData?.memberOf[indexPath.row].name ?? "My Project"
+        let projectName = "Sync Realm"
         cell.textLabel?.text = projectName
 
         return cell
@@ -87,7 +93,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = app.currentUser!
-        let project = userData?.memberOf[indexPath.row] ?? Project(partition: "project=\(user.id)", name: "My Project")
+        let project = Project(partition: "project=\(user.id)", name: "Sync Realm")
 
         Realm.asyncOpen(configuration: user.configuration(partitionValue: project.partition!)) { [weak self] (result) in
             switch result {
@@ -101,5 +107,10 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
-
+    @objc func manageLocalTaskButtonDidClick() {
+        self.navigationController?.pushViewController(
+            LocalTasksViewController(),
+            animated: true
+        )
+    }
 }

@@ -15,6 +15,7 @@
 		48596AD1245C71C9005A6E3B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48596AD0245C71C9005A6E3B /* WelcomeViewController.swift */; };
 		4871E6802465C2D4001A605A /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4871E67F2465C2BA001A605A /* TasksViewController.swift */; };
 		56824D4BEF3EE784989EF283 /* Pods_Task_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5862112E07E9FB7B89E32951 /* Pods_Task_Tracker.framework */; };
+		FC8DD23F2614747A00540602 /* LocalTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8DD23E2614747A00540602 /* LocalTasksViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		5862112E07E9FB7B89E32951 /* Pods_Task_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Task_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4F6D5DFECFE7406271DA17 /* Pods-Task Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Task Tracker/Pods-Task Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		A40B2A1DA4109BB5084A3DF4 /* Pods-Task Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task Tracker.release.xcconfig"; path = "Target Support Files/Pods-Task Tracker/Pods-Task Tracker.release.xcconfig"; sourceTree = "<group>"; };
+		FC8DD23E2614747A00540602 /* LocalTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTasksViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				480BEB6D24648D72008819D9 /* Models.swift */,
 				4811570324606894004D0683 /* ProjectsViewController.swift */,
 				4871E67F2465C2BA001A605A /* TasksViewController.swift */,
+				FC8DD23E2614747A00540602 /* LocalTasksViewController.swift */,
 				4843E86A245B5D0E0044669C /* AppDelegate.swift */,
 				4843E86C245B5D0E0044669C /* SceneDelegate.swift */,
 				4843E873245B5D0F0044669C /* Assets.xcassets */,
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC8DD23F2614747A00540602 /* LocalTasksViewController.swift in Sources */,
 				4811570424606894004D0683 /* ProjectsViewController.swift in Sources */,
 				48596AD1245C71C9005A6E3B /* WelcomeViewController.swift in Sources */,
 				4843E86B245B5D0E0044669C /* AppDelegate.swift in Sources */,

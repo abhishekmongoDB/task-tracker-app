@@ -9,36 +9,22 @@
 import UIKit
 import RealmSwift
 
-class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LocalTasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     let tableView = UITableView()
-    let partitionValue: String
     let realm: Realm
     var notificationToken: NotificationToken?
-    let tasks: Results<Task>
-
-    required init(realm: Realm, title: String) {
-
-        // Ensure the realm was opened with sync.
-        guard let syncConfiguration = realm.configuration.syncConfiguration else {
-            fatalError("Sync configuration not found! Realm not opened with sync?")
-        }
-
-        self.realm = realm
-
-        print("\(self.realm.configuration.fileURL?.absoluteString)")
-        // Partition value must be of string type.
-        partitionValue = syncConfiguration.partitionValue!.stringValue!
-
-        // Access all tasks in the realm, sorted by _id so that the ordering is defined.
-        tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
-
+    var localTasks: Results<LocalTask>? = nil
+    required init() {
+        self.realm =  try! Realm()
         super.init(nibName: nil, bundle: nil)
+        self.title = "Local Realm"
 
-        self.title = title
+        localTasks = realm.objects(LocalTask.self).sorted(byKeyPath: "_id")
 
+        
         // Observe the tasks for changes. Hang on to the returned notification token.
-        notificationToken = tasks.observe { [weak self] (changes) in
+        notificationToken = localTasks!.observe { [weak self] (changes) in
             guard let tableView = self?.tableView else { return }
             switch changes {
             case .initial:
@@ -88,13 +74,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
+        return localTasks?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // This defines how the Tasks in the list look.
         // We want the task name on the left and some indication of its status on the right.
-        let task = tasks[indexPath.row]
+        let task = localTasks![indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
         cell.textLabel?.text = task.name
@@ -122,7 +108,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let textField = alertController.textFields![0] as UITextField
 
             // Create a new Task with the text that the user entered.
-            let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
+            let task = LocalTask(name: textField.text ?? "New Task")
 
             // Any writes to the Realm must occur in a write block.
             try! self.realm.write {
@@ -142,7 +128,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         // User selected a task in the table. We will present a list of actions that the user can perform on this task.
-        let task = tasks[indexPath.row]
+        let task = localTasks![indexPath.row]
 
         // Create the AlertController and add its actions.
         let actionSheet: UIAlertController = UIAlertController(title: task.name, message: "Select an action", preferredStyle: .actionSheet)
@@ -185,21 +171,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
-
         // User can swipe to delete items.
-        let task = tasks[indexPath.row]
-
+        let task = localTasks![indexPath.row]
         // All modifications to a realm must happen in a write block.
         try! realm.write {
             // Delete the Task.
             realm.delete(task)
         }
     }
-
-    // Returns true if these are the user's own tasks.
-    func isOwnTasks() -> Bool {
-        return partitionValue == "project=\(app.currentUser!.id)"
-    }
-
 
 }
